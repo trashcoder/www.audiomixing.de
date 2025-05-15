@@ -1,0 +1,29 @@
+code {
+    background-color: lightgray;
+    max-width: 800px;
+    display: block;
+}
+
+.articles {
+    max-width: 800px
+}
+
+.logo {
+    width: auto;
+    height: 50px;
+}
+
+
+.intro {
+    max-width: 800px;
+}
+
+body {
+    max-width: 800px;
+}
+
+.fullscreen_image {
+    width: 100%;
+    height: auto;
+
+}

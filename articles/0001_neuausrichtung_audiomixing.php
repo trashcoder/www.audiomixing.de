@@ -1,0 +1,22 @@
+<?php declare(strict_types=1); ?>
+<!doctype html>
+
+
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="styles/mainstyle.css">
+    <title>dev.audiomixing.de - Neuausrichtung audiomixing.de</title>
+</head>
+
+<body>
+    <h3><a href="?article=0001">Neuausrichtung audiomixing.de</a>
+    </h3>
+    Ab dem heutigen Tag (06.04.2025) werde ich meine Website audiomixing.de neu ausrichten. Wir ihr vermutlich auch
+    bereits festgestellt habt, werden ich kein Wordpress mehr verwenden sondern die Website selbst entwickeln. Dazu
+    verwende ich ein selbstentwickeltes PHP-Script, welches keine Datenbank benötigt. Das Design wird sich nach und nach
+    ergeben. Die Idee ist mit audiomixing.de Audio Tools zu entwickeln und zu präsentieren.
+</body>
+
+</html>
