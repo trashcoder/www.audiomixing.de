@@ -9,16 +9,22 @@ function scanDownloads(string $basePath): array
         $projectPath = $basePath . "/" . $project;
         if (!is_dir($projectPath)) continue;
 
-        $files = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($projectPath, FilesystemIterator::SKIP_DOTS)
-        );
-        foreach ($files as $file) {
-            $relativePath = substr($file->getPathname(), strlen($basePath) + 1);
-            $result[$project][] = [
-                "path"  => $relativePath,
-                "name"  => $file->getFilename(),
-                "size"  => $file->getSize(),
-            ];
+        $platforms = scandir($projectPath, SCANDIR_SORT_ASCENDING);
+        foreach ($platforms as $platform) {
+            if ($platform === "." || $platform === "..") continue;
+            $platformPath = $projectPath . "/" . $platform;
+            if (!is_dir($platformPath)) continue;
+
+            $files = new FilesystemIterator($platformPath, FilesystemIterator::SKIP_DOTS);
+            foreach ($files as $file) {
+                if (!$file->isFile()) continue;
+                $relativePath = $project . "/" . $platform . "/" . $file->getFilename();
+                $result[$project][$platform][] = [
+                    "path" => $relativePath,
+                    "name" => $file->getFilename(),
+                    "size" => $file->getSize(),
+                ];
+            }
         }
     }
     return $result;
@@ -52,19 +58,22 @@ $downloads = scanDownloads("./downloads");
     <?php if (empty($downloads)): ?>
         <p>Keine Dateien vorhanden.</p>
     <?php else: ?>
-        <?php foreach ($downloads as $project => $files): ?>
+        <?php foreach ($downloads as $project => $platforms): ?>
             <section>
                 <h2><?php echo htmlspecialchars($project); ?></h2>
-                <ul>
-                    <?php foreach ($files as $file): ?>
-                        <li>
-                            <a href="downloads/<?php echo htmlspecialchars($file["path"]); ?>" download>
-                                <?php echo htmlspecialchars($file["name"]); ?>
-                            </a>
-                            <span>(<?php echo formatFileSize($file["size"]); ?>)</span>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                <?php foreach ($platforms as $platform => $files): ?>
+                    <h3><?php echo htmlspecialchars($platform); ?></h3>
+                    <ul>
+                        <?php foreach ($files as $file): ?>
+                            <li>
+                                <a href="downloads/<?php echo htmlspecialchars($file["path"]); ?>" download>
+                                    <?php echo htmlspecialchars($file["name"]); ?>
+                                </a>
+                                <span>(<?php echo formatFileSize($file["size"]); ?>)</span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endforeach; ?>
             </section>
         <?php endforeach; ?>
     <?php endif; ?>
