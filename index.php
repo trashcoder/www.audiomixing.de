@@ -31,17 +31,15 @@ function fetchArticles(): array
 <head>
     <title>audiomixing.de</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/mainstyle.css">
 </head>
 
 <body>
-    <nav>
-        <a href="downloads.php">Downloads</a>
-    </nav>
+    <?php require_once("./header.php"); ?>
     <?php if ($article_to_load !== ""): ?>
         <?php require_once("./articles/" . $article_to_load); ?>
     <?php else: ?>
-        <h1>audiomixing.de</h1>
         <h2>Hi, ich bin Dennis und auf dieser Website möchte ich euch auf eine Reise mitnehmen zur Entwicklung einiger Ideen
             zu Audiosoftware.
         </h2>

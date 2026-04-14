@@ -1,5 +1,14 @@
 <?php declare(strict_types=1);
 
+function loadDownloadCounts(string $countsFile): array
+{
+    if (!is_file($countsFile)) return [];
+    $content = file_get_contents($countsFile);
+    if ($content === false || $content === '') return [];
+    $decoded = json_decode($content, true);
+    return is_array($decoded) ? $decoded : [];
+}
+
 function scanDownloads(string $basePath): array
 {
     $result = [];
@@ -38,6 +47,7 @@ function formatFileSize(int $bytes): string
 }
 
 $downloads = scanDownloads("./downloads");
+$counts    = loadDownloadCounts(__DIR__ . "/data/download_counts.json");
 ?>
 <!doctype html>
 <html>
@@ -45,13 +55,12 @@ $downloads = scanDownloads("./downloads");
 <head>
     <title>audiomixing.de - Downloads</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/mainstyle.css">
 </head>
 
 <body>
-    <nav>
-        <a href="index.php">← Zurück zur Startseite</a>
-    </nav>
+    <?php require_once("./header.php"); ?>
 
     <h1>Downloads</h1>
 
@@ -65,11 +74,13 @@ $downloads = scanDownloads("./downloads");
                     <h3><?php echo htmlspecialchars($platform); ?></h3>
                     <ul>
                         <?php foreach ($files as $file): ?>
+                            <?php $dlCount = $counts[$file["path"]] ?? 0; ?>
                             <li>
-                                <a href="downloads/<?php echo htmlspecialchars($file["path"]); ?>" download>
+                                <a href="download.php?file=<?php echo urlencode($file["path"]); ?>">
                                     <?php echo htmlspecialchars($file["name"]); ?>
                                 </a>
                                 <span>(<?php echo formatFileSize($file["size"]); ?>)</span>
+                                <span class="download-count"><?php echo $dlCount; ?> &times; heruntergeladen</span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
