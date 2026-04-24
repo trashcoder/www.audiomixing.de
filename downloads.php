@@ -89,6 +89,16 @@ $counts    = loadDownloadCounts(__DIR__ . "/data/download_counts.json");
         <?php endforeach; ?>
     <?php endif; ?>
 
+    <section>
+        <h2>Thunderbird Add-ons</h2>
+        <ul>
+            <li>
+                <a href="https://addons.thunderbird.net/en-US/thunderbird/addon/foldersync/" target="_blank" rel="noopener">FolderSync</a>
+                – Synchronisiert E-Mail-Ordner zwischen verschiedenen Konten in Mozilla Thunderbird.
+            </li>
+        </ul>
+    </section>
+
     <?php require_once("./footer.php"); ?>
 </body>
 
